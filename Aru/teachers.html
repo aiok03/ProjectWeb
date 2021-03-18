@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Teachers</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+	<script type="text/javascript">
+	    function tableSearch(tableId, searchId) {
+			let table = document.getElementById(tableId);
+			let phrase = document.getElementById(searchId);
+			let regPhrase = new RegExp(phrase.value, 'i');
+			for (let i = 1; i < table.rows.length; i++) {
+				let flag = false;
+				for (let j = table.rows[i].cells.length - 1; j >= 0; j--) {
+					flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
+					if (flag) break;
+				}
+				if (flag) {
+					table.rows[i].style.display = "";
+				} else {
+					table.rows[i].style.display = "none";
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col">
+			<h1 class="display-1">Teachers</h1>
+		</div>
+		<div class="col d-flex align-items-center">
+			<a href="/" class="btn btn-link" style="font-size: 20px;">Home page</a>
+			<a href="/favourites" class="btn btn-link" style="font-size: 20px;">Favourites</a>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<div class="row">
+				<h1>Ielts category</h1>
+				<div class="col-2">
+					<input class="form-control" type="text" placeholder="Search" id="searchIelts" onkeyup="tableSearch('ieltsTable', 'searchIelts')">
+				</div>
+			</div>
+			<table class="table table-striped" id="ieltsTable">
+				<thead>
+					<tr>
+		                <th scope="col">Full name</th>
+		                <th scope="col">Exam Result</th>
+		                <th scope="col">Contacts</th>
+		                <th scope="col">Action</th>
+		            </tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<hr>
+			<div class="row">
+				<h1>Sat category</h1>
+				<div class="col-2">
+					<input class="form-control" type="text" placeholder="Search" id="searchSat" onkeyup="tableSearch('satTable', 'searchSat')">
+				</div>
+			</div>
+			<table class="table table-striped" id="satTable">
+				<thead>
+					<tr>
+		                <th scope="col">Full name</th>
+		                <th scope="col">Exam Result</th>
+		                <th scope="col">Contacts</th>
+		                <th scope="col">Action</th>
+		            </tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<hr>
+			<div class="row">
+				<h1>Hsk category</h1>
+				<div class="col-2">
+					<input class="form-control" type="text" placeholder="Search" id="searchHsk" onkeyup="tableSearch('hskTable', 'searchHsk')">
+				</div>
+			</div>
+			<table class="table table-striped" id="hskTable">
+				<thead>
+					<tr>
+		                <th scope="col">Full name</th>
+		                <th scope="col">Exam Result</th>
+		                <th scope="col">Contacts</th>
+		                <th scope="col">Action</th>
+		            </tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<hr>
+			<div class="row">
+				<h1>Toefl category</h1>
+				<div class="col-2">
+					<input class="form-control" type="text" placeholder="Search" id="searchToefl" onkeyup="tableSearch('toeflTable', 'searchToefl')">
+				</div>
+			</div>
+			<table class="table table-striped" id="toeflTable">
+				<thead>
+					<tr>
+		                <th scope="col">Full name</th>
+		                <th scope="col">Exam Result</th>
+		                <th scope="col">Contacts</th>
+		                <th scope="col">Action</th>
+		            </tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<hr>
+			<div class="row">
+				<h1>Jlpt category</h1>
+				<div class="col-2">
+					<input class="form-control" type="text" placeholder="Search" id="searchJlpt" onkeyup="tableSearch('jlptTable', 'searchJlpt')">
+				</div>
+			</div>
+			<table class="table table-striped" id="jlptTable">
+				<thead>
+					<tr>
+		                <th scope="col">Full name</th>
+		                <th scope="col">Exam Result</th>
+		                <th scope="col">Contacts</th>
+		                <th scope="col">Action</th>
+		            </tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function () {
+		$.getJSON("https://raw.githubusercontent.com/aiok03/json-server/main/ieltsteachers.json", function (data) {
+	        let ieltsTeachers = data["Teachers"];
+	        let ieltsTeacher = "";
+	        $.each(ieltsTeachers, function (key, value) {
+	            ieltsTeacher += '<tr>';
+	            ieltsTeacher += '<td>' + value.fullname + '</td>';
+	            ieltsTeacher += '<td>' + value.examresult + '</td>';
+	            ieltsTeacher += '<td>' + value.contacts + '</td>';
+	            ieltsTeacher += '<td><form method="post">'+
+						'<input type="text" name="fullname" hidden="hidden" value="' + value.fullname + '">'+
+						'<input type="text" name="examresult" hidden="hidden" value="' + value.examresult + '">'+
+						'<input type="text" name="contacts" hidden="hidden" value="' + value.contacts + '">'+
+						'<input type="submit" class="btn btn-warning" value="Add to favourites">'+
+					'</form></td>';
+	            ieltsTeacher += '</tr>';
+	        });
+	        $('#ieltsTable').append(ieltsTeacher);
+	    });
+
+		$.getJSON("https://raw.githubusercontent.com/aiok03/json-server/main/satteachers.json", function (data) {
+	        let satTeachers = data["Teachers"];
+	        let satTeacher = "";
+	        $.each(satTeachers, function (key, value) {
+	            satTeacher += '<tr>';
+	            satTeacher += '<td>' + value.fullname + '</td>';
+	            satTeacher += '<td>' + value.examresult + '</td>';
+	            satTeacher += '<td>' + value.contacts + '</td>';
+	            satTeacher += '<td><form method="post">'+
+						'<input type="text" name="fullname" hidden="hidden" value="' + value.fullname + '">'+
+						'<input type="text" name="examresult" hidden="hidden" value="' + value.examresult + '">'+
+						'<input type="text" name="contacts" hidden="hidden" value="' + value.contacts + '">'+
+						'<input type="submit" class="btn btn-warning" value="Add to favourites">'+
+					'</form></td>';
+	            satTeacher += '</tr>';
+	        });
+	        $('#satTable').append(satTeacher); 
+	    });
+
+		$.getJSON("https://raw.githubusercontent.com/aiok03/json-server/main/hskteachers.json", function (data) {
+	        let hskTeachers = data["Teahers"];
+	        let hskTeacher = "";
+	        $.each(hskTeachers, function (key, value) {
+	            hskTeacher += '<tr>';
+	            hskTeacher += '<td>' + value.fullname + '</td>';
+	            hskTeacher += '<td>' + value.examresult + '</td>';
+	            hskTeacher += '<td>' + value.contacts + '</td>';
+	            hskTeacher += '<td><form method="post">'+
+						'<input type="text" name="fullname" hidden="hidden" value="' + value.fullname + '">'+
+						'<input type="text" name="examresult" hidden="hidden" value="' + value.examresult + '">'+
+						'<input type="text" name="contacts" hidden="hidden" value="' + value.contacts + '">'+
+						'<input type="submit" class="btn btn-warning" value="Add to favourites">'+
+					'</form></td>';
+	            hskTeacher += '</tr>';
+	        });
+	        $('#hskTable').append(hskTeacher); 
+	    });
+
+		$.getJSON("https://raw.githubusercontent.com/aiok03/json-server/main/toeflteachers.json", function (data) {
+	        let toeflTeachers = data["Teachers"];
+	        let toeflTeacher = "";
+	        $.each(toeflTeachers, function (key, value) {
+	            toeflTeacher += '<tr>';
+	            toeflTeacher += '<td>' + value.fullname + '</td>';
+	            toeflTeacher += '<td>' + value.examresult + '</td>';
+	            toeflTeacher += '<td>' + value.contacts + '</td>';
+	            toeflTeacher += '<td><form method="post">'+
+						'<input type="text" name="fullname" hidden="hidden" value="' + value.fullname + '">'+
+						'<input type="text" name="examresult" hidden="hidden" value="' + value.examresult + '">'+
+						'<input type="text" name="contacts" hidden="hidden" value="' + value.contacts + '">'+
+						'<input type="submit" class="btn btn-warning" value="Add to favourites">'+
+					'</form></td>';
+	            toeflTeacher += '</tr>';
+	        });
+	        $('#toeflTable').append(toeflTeacher); 
+	    });
+
+	    $.getJSON("https://raw.githubusercontent.com/aiok03/json-server/main/jlptteachers.json", function (data) {
+	        let jlptTeachers = data["Teachers"];
+	        let jlptTeacher = "";
+	        $.each(jlptTeachers, function (key, value) {
+	            jlptTeacher += '<tr>';
+	            jlptTeacher += '<td>' + value.fullname + '</td>';
+	            jlptTeacher += '<td>' + value.examresult + '</td>';
+	            jlptTeacher += '<td>' + value.contacts + '</td>';
+	            jlptTeacher += '<td><form method="post">'+
+						'<input type="text" name="fullname" hidden="hidden" value="' + value.fullname + '">'+
+						'<input type="text" name="examresult" hidden="hidden" value="' + value.examresult + '">'+
+						'<input type="text" name="contacts" hidden="hidden" value="' + value.contacts + '">'+
+						'<input type="submit" class="btn btn-warning" value="Add to favourites">'+
+					'</form></td>';
+	            jlptTeacher += '</tr>';
+	        });
+	        $('#jlptTable').append(jlptTeacher); 
+	    });
+	});
+</script>
+</body>
+</html>
