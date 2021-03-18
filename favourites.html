@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Favourites</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<h1 class="display-1">Favourites</h1>
+		</div>
+		<div class="col">
+			<form method="POST">
+				<button class="btn btn-danger">Logout</button>
+			</form>
+			<a href="/teachers" class="btn btn-link">Teachers</a>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col">
+			<table class="table table-striped" id="favouriteTable">
+				<thead>
+					<tr>
+		                <th scope="col">Full name</th>
+		                <th scope="col">Exam result</th>
+		                <th scope="col">Contacts</th>
+		            </tr>
+				</thead>
+				<tbody>
+					<script>
+					$(document).ready(function () {
+						$.getJSON("favourites.json", function (data) {
+					        let favourites = data["favourites"];
+					        let favourite = "";
+					        $.each(favourites, function (key, value) {
+					            favourite += '<tr>';
+					            favourite += '<td>' + value.fullname + '</td>';
+					            favourite += '<td>' + value.examresult + '</td>';
+					            favourite += '<td>' + value.contacts + '</td>';
+					            favourite += '</tr>';
+					        });
+					        $('#favouriteTable').append(favourite); 
+					    }); 
+					});
+					</script>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>
